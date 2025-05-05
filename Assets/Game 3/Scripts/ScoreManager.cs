@@ -7,6 +7,10 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager instance;
     public TextMeshProUGUI scoreText;
     private int score = 0;
+    
+    [Header("Scene Loading")]
+    [Tooltip("Assign the GameObject that has the SpaceSceneLoader script.")]
+    [SerializeField] private SpaceSceneLoader sceneLoader;
 
     void Awake()
     {
@@ -29,18 +33,9 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreText();
 
         // Eðer skor 100 veya daha fazla ise, level açma iþlemi baþlasýn.
-        if (score >= 100)
+        if (score >= 145)
         {
-            int currentLevelNumber = SceneManager.GetActiveScene().buildIndex - 1;
-            int maxLevelUnlocked = PlayerPrefs.GetInt("MaxLevel", 1);
-
-            // Sadece bir sonraki leveli açýyoruz
-            if (currentLevelNumber == maxLevelUnlocked)
-            {
-                PlayerPrefs.SetInt("MaxLevel", maxLevelUnlocked + 1);
-                PlayerPrefs.Save();
-                Debug.Log("Yeni Level Açýldý: " + (maxLevelUnlocked + 1));
-            }
+           sceneLoader.LoadNextScene();
         }
     }
 
